@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "Href-Link-Control",
-    "version": "1.0.74",
+    "version": "1.0.84",
     "name": "Shows linked Href of files",
     "scopes": [
         "vso.code_full",
@@ -55,26 +55,15 @@
             "name": "link href Field",
             "uri": "hrefIndex.html",
             "inputs": [{
-                    "id": "hrefListValue",
-                    "name": "Link",
-                    "description": "This field get the links uri seperated with ;",
-                    "type": "WorkItemField",
-                    "validation": {
-                        "dataType": "String",
-                        "isRequired": true
-                    }
-                },
-                {
-                    "id": "hrefView",
-                    "name": "isView",
-                    "description": "This field give the option to show the link as image",
-                    "type": "TextArea",
-                    "validation": {
-                        "dataType": "String",
-                        "isRequired": false
-                    }
+                "id": "hrefListValue",
+                "name": "Link",
+                "description": "This field get the links uri seperated with ;",
+                "type": "WorkItemField",
+                "validation": {
+                    "dataType": "String",
+                    "isRequired": true
                 }
-            ]
+            }]
         }
     }]
 }

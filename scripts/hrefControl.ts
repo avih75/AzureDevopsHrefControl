@@ -9,18 +9,16 @@ export class Controller {
     }
     private Initialize(): void {
         let inputs = VSS.getConfiguration().witInputs;
-        let listControl = inputs["hrefListValue"];
-        let isView = inputs["hrefView"];
+        let listControl = inputs["hrefListValue"]; 
 
         WitService.WorkItemFormService.getService().then(
             (service) => {
                 Q.spread(
                     [
-                        service.getFieldValue(listControl),
-                        service.getFieldValue(isView),
+                        service.getFieldValue(listControl)
                     ],
                     (link: string) => {
-                        CreateView(link,listControl,isView);
+                        CreateView(link,listControl);
                     }, this._handleError
                 ).then(null, this._handleError);
             },

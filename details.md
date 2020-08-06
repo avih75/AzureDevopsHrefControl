@@ -4,8 +4,7 @@ This control was created to offer you the ability of showing a link as image and
 
 # Install in Azure Devops 
 
-deffine a field for this as string, (mandatory)
-deffine if this control should show image or just a link (true-only if you going to link images)
+deffine a field for this as string, (mandatory) that will contain the link 
 
 ![Layout Customization](img/A1.png) 
 
@@ -27,9 +26,14 @@ for changing or delete it, just press the red X button
 
 # Enjoy The view
 
-after the link is written
+after the link is written you can press the red "show" to reveal the image or press the hide, to hide it back.
 
-![Layout Customization](img/D.png) 
+![Layout Customization](img/D1.png) 
+
+in case of wrong link....
+
+![Layout Customization](img/D1.png) 
+
 
 contact me :
 avih75@gmail.com
