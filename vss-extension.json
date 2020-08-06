@@ -1,0 +1,80 @@
+{
+    "manifestVersion": 1,
+    "id": "Href-Link-Control",
+    "version": "1.0.57",
+    "name": "Shows linked Href of files",
+    "scopes": [
+        "vso.code_full",
+        "vso.work_write"
+    ],
+    "description": "Add an href linked type to your form",
+    "publisher": "AviHadad",
+    "icons": {
+        "default": "img/logo.png"
+    },
+    "targets": [{
+        "id": "Microsoft.VisualStudio.Services",
+        "version": "[15.0,)"
+    }],
+    "tags": [
+        "Work Item",
+        "Work Item control",
+        "Usability",
+        "link",
+        "image"
+    ],
+    "content": {
+        "details": {
+            "path": "details.md"
+        }
+    },
+    "files": [{
+            "path": "img",
+            "addressable": true
+        },
+        {
+            "path": "scripts",
+            "addressable": true
+        },
+        {
+            "path": "hrefIndex.html",
+            "addressable": true
+        }
+    ],
+    "categories": [
+        "Azure Boards"
+    ],
+    "contributions": [{
+        "id": "Href_Link",
+        "description": "Show links to files with an href",
+        "type": "ms.vss-work-web.work-item-form-control",
+        "targets": [
+            "ms.vss-work-web.work-item-form"
+        ],
+        "properties": {
+            "name": "link href Field",
+            "uri": "hrefIndex.html",
+            "inputs": [{
+                    "id": "hrefListValue",
+                    "name": "analyzed",
+                    "description": "This field get the links uri seperated with ;",
+                    "type": "WorkItemField",
+                    "validation": {
+                        "dataType": "String",
+                        "isRequired": true
+                    }
+                },
+                {
+                    "id": "hrefView",
+                    "name": "isView",
+                    "description": "This field give the option to show the link as image",
+                    "type": "TextArea",
+                    "validation": {
+                        "dataType": "String",
+                        "isRequired": false
+                    }
+                }
+            ]
+        }
+    }]
+}

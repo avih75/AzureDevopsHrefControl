@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <script src="scripts/VSS.SDK.min.js"></script>
+    <title>Href Link Control</title>
+    <style>
+        input[type=text] {
+            /* width: 100%; */
+            box-shadow: none;
+            margin-left: 10px;
+            margin-top: 5px;
+            box-shadow: none;
+            -webkit-appearance: none;
+            border-color: lightgray;
+            border-width: 1px;
+            outline: none;
+        }
+        
+        input[type=text]:focus {
+            border-color: blue;
+            border-width: 1px;
+        }
+    </style>
+    <script>
+        VSS.init({
+            explicitNotifyLoaded: true,
+            usePlatformScripts: true,
+            usePlatformStyles: true,
+            configureModuleLoader: true,
+            applyTheme: true
+        });
+        VSS.resize(1, 1);
+        VSS.require(["scripts/hrefApp"], function() {
+            VSS.notifyLoadSucceeded();
+        });
+    </script>
+</head>
+
+<body>
+    <div id="hrefLink" class="hrefLink">
+        <p id="paragraph">
+            <label id="removeButton" style="font-size: x-small; color: red; cursor: pointer;"></label>
+            <a id="href" target="_blank" style="margin-left: 10px;"></a>
+            <input id="input" type="text">
+        </p>
+    </div>
+</body>
+
+</html>
