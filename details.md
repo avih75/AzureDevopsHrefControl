@@ -15,12 +15,17 @@ deffine if this control should show image or just a link (true-only if you going
 
 # Simple - Use it
 
-after writing the link, the input box turn to a Href link
-for changing or delete it, just press the red X button
+write the link in the input box
 
 ![Layout Customization](img/B.png) 
 
+after writing the link, the input box turn to a Href link
+
 ![Layout Customization](img/C.png) 
+
+for changing or delete it, just press the red X button
+
+# Enjoy The view
 
 after the link is written
 

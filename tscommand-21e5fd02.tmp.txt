@@ -1,0 +1,1 @@
+scripts\errorView.ts scripts\hrefApp.ts scripts\hrefControl.ts scripts\hrefView.ts typings\globals\chai\index.d.ts typings\globals\mocha\index.d.ts typings\index.d.ts --removeComments --moduleResolution node --rootDir ./scripts --lib dom,es6 --types "jquery,q,vss-web-extension-sdk" --target ES6 --module amd
