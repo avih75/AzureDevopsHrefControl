@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "Href-Link-Control",
-    "version": "1.0.72",
+    "version": "1.0.73",
     "name": "Shows linked Href of files",
     "scopes": [
         "vso.code_full",

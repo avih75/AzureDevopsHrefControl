@@ -4,13 +4,27 @@ This control was created to offer you the ability of showing a link as image and
 
 # Install in Azure Devops 
 
-deffine a field for this as string, hide it from the user
-deffine this control to the same field
+deffine a field for this as string, (mandatory)
+deffine if this control should show image or just a link (true-only if you going to link images)
 
-# Use it
+![Layout Customization](img/A1.png) 
+
+![Layout Customization](img/A2.png) 
+
+![Layout Customization](img/A3.png) 
+
+# Simple - Use it
 
 after writing the link, the input box turn to a Href link
-for changing or delete it, just press the X button
+for changing or delete it, just press the red X button
+
+![Layout Customization](img/B.png) 
+
+![Layout Customization](img/C.png) 
+
+after the link is written
+
+![Layout Customization](img/D.png) 
 
 contact me :
 avih75@gmail.com
