@@ -10,7 +10,7 @@ export class Controller {
     private Initialize(): void {
         let inputs = VSS.getConfiguration().witInputs;
         let listControl = inputs["hrefListValue"];
-        let isView = inputs["isView"];
+        let isView = inputs["hrefView"];
 
         WitService.WorkItemFormService.getService().then(
             (service) => {

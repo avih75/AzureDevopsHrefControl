@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "Href-Link-Control",
-    "version": "1.0.57",
+    "version": "1.0.70",
     "name": "Shows linked Href of files",
     "scopes": [
         "vso.code_full",
@@ -56,7 +56,7 @@
             "uri": "hrefIndex.html",
             "inputs": [{
                     "id": "hrefListValue",
-                    "name": "analyzed",
+                    "name": "Link",
                     "description": "This field get the links uri seperated with ;",
                     "type": "WorkItemField",
                     "validation": {

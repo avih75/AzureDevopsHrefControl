@@ -1,9 +1,8 @@
 import * as WitService from "TFS/WorkItemTracking/Services"; 
 
 export function CreateView(hrefLink: string, FieldRefName: string, isView: boolean) {
-    let image = $("#img");
-    let hrefDiv = $("#hrefLink");
-    let paragraph = $("#paragraph");
+    let image = $("#image");
+    let hrefDiv = $("#hrefLink"); 
 
     // create the text box
     let textBox = $("#input");
@@ -17,13 +16,11 @@ export function CreateView(hrefLink: string, FieldRefName: string, isView: boole
     }
     else {
         href.attr("href", hrefLink);  // make it linked
-        href.text(hrefLink);
+        href.text(hrefLink.substring(0,50)+" ...");
         textBox.hide();        
         image.attr("src", hrefLink);  // creat small picture
         image.show();
-    }
-
-    // create the remove button
+    } 
     let removeButton = $("#removeButton");
     removeButton.text("X"); 
     removeButton.click(() => {        
@@ -34,16 +31,11 @@ export function CreateView(hrefLink: string, FieldRefName: string, isView: boole
         OnFieldLeavFocus("", FieldRefName); 
         image.attr("src", "");
         image.hide();
-    });
-
-    // paragraph.append(removeButton);        // add to the paragraph
-    // paragraph.append(href);
-    // paragraph.append(textBox);
-    // hrefDiv.append(paragraph);
-
+        VSS.resize(null, 40);
+    }); 
     if (isView)
     {
-        VSS.resize(null, 200);
+        VSS.resize(null, 300);
     }
     else
     {
@@ -55,18 +47,22 @@ export function CreateView(hrefLink: string, FieldRefName: string, isView: boole
 function OnFieldLeavFocus(hrefLink: string, FieldRefName: string) {
     let textBox = $("#input");
     let href = $("#href");
-    let image = $("#img");
+    let image = $("#image");
     if (hrefLink == "") {
         href.hide();
         textBox.show();
         image.hide();
+        image.attr("src","");
+        VSS.resize(null, 40);
     }
     else {
         href.attr("href", hrefLink);
-        textBox.hide(); href.text(hrefLink);
+        textBox.hide(); 
+        href.text(hrefLink.substring(0,50)+" ...");
         href.show();
         image.attr("src", hrefLink);
         image.show();
+        VSS.resize(null, 300);
     }
     WitService.WorkItemFormService.getService().then(
         (service) => {
