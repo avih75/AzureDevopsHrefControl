@@ -1,23 +1,14 @@
-import * as WitService from "TFS/WorkItemTracking/Services";
-import { ErrorView } from "./errorView";
-import * as Q from "q";
-import { IWorkItemLoadedArgs } from "TFS/WorkItemTracking/ExtensionContracts";
+import { ErrorView } from "./errorView"; 
 import { CreateView } from "./hrefView";
+import { spread } from "q";
+import { WorkItemFormService } from "TFS/WorkItemTracking/Services";
 export class Controller {    
-    constructor(workItemLoadedArgs: IWorkItemLoadedArgs) {
-        this.Initialize();
-    }
-    private Initialize(): void {
+    constructor() {        
         let inputs = VSS.getConfiguration().witInputs;
         let listControl = inputs["hrefListValue"]; 
-
-        WitService.WorkItemFormService.getService().then(
+        WorkItemFormService.getService().then(
             (service) => {
-                Q.spread(
-                    [
-                        service.getFieldValue(listControl)
-                    ],
-                    (link: string) => {
+                spread([service.getFieldValue(listControl)],(link: string) => {
                         CreateView(link,listControl);
                     }, this._handleError
                 ).then(null, this._handleError);

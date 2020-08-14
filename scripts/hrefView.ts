@@ -1,52 +1,49 @@
-import * as WitService from "TFS/WorkItemTracking/Services";
+// import * as WitService from "TFS/WorkItemTracking/Services";
+import { WorkItemFormService } from "TFS/WorkItemTracking/Services";
 
 export function CreateView(hrefLink: string, FieldRefName: string) {
-    let isView:boolean = false;
-    let image = $("#image");
-    let check = $("#check");
-    let href = $("#href");
-    let textBox = $("#input");
+    let isView: boolean = false;   // show image state
+    let image = $("#image");      // image element
+    let check = $("#check");      // button switch show state
+    check.text("Show");
+    let href = $("#href");        // button open new tab with image link
+    let textBox = $("#input");    // text box for the link
     let removeButton = $("#removeButton");
     removeButton.text("X");
     removeButton.click(() => {
         textBox.val("");
         textBox.show();
+        textBox.focus();
+        href.attr("href", "");
         href.text("");
         href.hide();
         check.hide();
-        OnFieldLeavFocus("", FieldRefName, isView);
+        OnFieldLeavFocus(textBox.val(), FieldRefName, isView);
         VSS.resize(null, 40);
         image.attr("src", "");
         image.hide();
     });
-
     check.click(() => {
         isView = !isView
-        if (isView)
-            check.text("Hide");
-        else
-            check.text("Show");
-        AddImageIfexists(hrefLink, image, isView);
+        AddImageIfexists(hrefLink, isView);
     })
     textBox.val(hrefLink);
     textBox.focusout(() => OnFieldLeavFocus(textBox.val(), FieldRefName, isView));
     if (hrefLink == undefined || hrefLink == "") {
         href.hide();
         check.hide();
-        textBox.show();
         image.hide();
+        textBox.show();
+        AddImageIfexists(hrefLink, isView)
     }
     else {
+        textBox.hide();
         check.show();
+        href.show();
         href.attr("href", hrefLink);
         href.text(hrefLink.substring(0, 50) + " ...");
-        textBox.hide();
-        AddImageIfexists(hrefLink, image, isView)
+        AddImageIfexists(hrefLink, isView)
     }
-    if (isView)
-        check.text("Hide");
-    else
-        check.text("Show");
 }
 function OnFieldLeavFocus(hrefLink: string, FieldRefName: string, isView: boolean) {
     let textBox = $("#input");
@@ -62,31 +59,36 @@ function OnFieldLeavFocus(hrefLink: string, FieldRefName: string, isView: boolea
         VSS.resize(null, 40);
     }
     else {
-        href.attr("href", hrefLink);
         textBox.hide();
+        href.attr("href", hrefLink);
         href.text(hrefLink.substring(0, 50) + " ...");
         href.show();
-        check.show();
-        AddImageIfexists(hrefLink, image, isView);
+        check.show(); 
+        AddImageIfexists(hrefLink, isView);
     }
-    WitService.WorkItemFormService.getService().then(
+    WorkItemFormService.getService().then(
         (service) => {
             service.setFieldValue(FieldRefName, hrefLink);
         }
     );
 }
-function AddImageIfexists(hrefLink: string, image: JQuery, isView: boolean) {
+function AddImageIfexists(hrefLink: string, isView: boolean) {
+    let image = $("#image");
+    let check = $("#check");
+    image.attr("src", hrefLink);
     if (isView) {
-        image.attr("src", hrefLink);
         image.show();
-        $.get(hrefLink)
-            .done(function () {
-                VSS.resize(null, 290);
-            }).fail(function () {
-                VSS.resize(null, 60);
-            })
+        check.text("Hide");
+        //     $.get(hrefLink)
+        //         .done(function () {
+        VSS.resize(null, 290);
+        //         }).fail(function () {
+        //             VSS.resize(null, 60);
+        //         })
     }
     else {
         VSS.resize(null, 40);
+        check.text("Show");
+        image.hide();
     }
 }

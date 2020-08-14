@@ -32,7 +32,7 @@ after the link is written you can press the red "show" to reveal the image or pr
 
 in case of wrong link....
 
-![Layout Customization](img/D1.png) 
+![Layout Customization](img/D2.png) 
 
 
 contact me :

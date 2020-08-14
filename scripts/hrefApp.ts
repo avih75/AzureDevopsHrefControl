@@ -1,12 +1,9 @@
-import { Controller } from "./hrefControl";
-import { IWorkItemLoadedArgs, IWorkItemFieldChangedArgs } from "TFS/WorkItemTracking/ExtensionContracts";
+import { Controller } from "./hrefControl"; 
 
-var control: Controller;
-var provider = () => {
+let provider = () => {
     return {
-        onLoaded: (workItemLoadedArgs: IWorkItemLoadedArgs) => {
-            control = new Controller(workItemLoadedArgs);
-            // VSS.resize(null,40);
+        onLoaded: () => {
+            new Controller(); 
         }
     };
 };
