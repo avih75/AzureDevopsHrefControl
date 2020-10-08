@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "Href-Link-Control",
-    "version": "1.0.137",
+    "version": "1.0.160",
     "name": "Shows linked Href of files",
     "scopes": [
         "vso.code_full",
@@ -55,13 +55,40 @@
             "name": "link href Field",
             "uri": "hrefIndex.html",
             "inputs": [{
-                "id": "hrefListValue",
-                "name": "Link",
-                "description": "This field get the links uri seperated with ;",
+                "id": "linkValue",
+                "name": "Link to the image",
+                "description": "This field get the links uri",
                 "type": "WorkItemField",
                 "validation": {
                     "dataType": "String",
                     "isRequired": true
+                }
+            }, {
+                "id": "requireCall",
+                "name": "Source of the Image",
+                "description": "This field get the blob type name (for now can work only with WINS)",
+                "type": "AreaText",
+                "validation": {
+                    "dataType": "String",
+                    "isRequired": false
+                }
+            }, {
+                "id": "blobUrl",
+                "name": "URL to the Blob",
+                "description": "This field get the blob URL",
+                "type": "AreaText",
+                "validation": {
+                    "dataType": "String",
+                    "isRequired": false
+                }
+            }, {
+                "id": "userPassword",
+                "name": "user name and password",
+                "description": "This field get the user name and the password seperated by ',' ",
+                "type": "AreaText",
+                "validation": {
+                    "dataType": "String",
+                    "isRequired": false
                 }
             }]
         }

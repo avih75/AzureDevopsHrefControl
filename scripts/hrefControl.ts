@@ -1,16 +1,19 @@
-import { ErrorView } from "./errorView"; 
+import { ErrorView } from "./errorView";
 import { CreateView } from "./hrefView";
 import { spread } from "q";
 import { WorkItemFormService } from "TFS/WorkItemTracking/Services";
-export class Controller {    
-    constructor() {        
+export class Controller {
+    constructor() {
         let inputs = VSS.getConfiguration().witInputs;
-        let listControl = inputs["hrefListValue"]; 
+        let linkValue = inputs["linkValue"];
+        let requireCall = inputs["requireCall"];
+        let blobUrl = inputs["blobUrl"];
+        let userPassword = inputs["userPassword"];
         WorkItemFormService.getService().then(
             (service) => {
-                spread([service.getFieldValue(listControl)],(link: string) => {
-                        CreateView(link,listControl);
-                    }, this._handleError
+                spread([service.getFieldValue(linkValue)], (link: string) => {
+                    CreateView(link, linkValue, requireCall, blobUrl, userPassword);
+                }, this._handleError
                 ).then(null, this._handleError);
             },
             this._handleError
