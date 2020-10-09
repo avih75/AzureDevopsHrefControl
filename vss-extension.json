@@ -1,13 +1,13 @@
 {
     "manifestVersion": 1,
     "id": "Href-Link-Control",
-    "version": "1.0.160",
+    "version": "1.0.163",
     "name": "Shows linked Href of files",
     "scopes": [
         "vso.code_full",
         "vso.work_write"
     ],
-    "description": "Add an href linked type to your form",
+    "description": "Add an Image element type to your form",
     "publisher": "AviHadad",
     "icons": {
         "default": "img/logo.png"
@@ -52,7 +52,7 @@
             "ms.vss-work-web.work-item-form"
         ],
         "properties": {
-            "name": "link href Field",
+            "name": "Image Field",
             "uri": "hrefIndex.html",
             "inputs": [{
                 "id": "linkValue",

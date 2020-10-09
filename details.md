@@ -1,4 +1,4 @@
-# Href Linke Control
+# Image Control
 
 This control was created to offer you the ability of showing a link as image and give it the option to be open in new tab
 
