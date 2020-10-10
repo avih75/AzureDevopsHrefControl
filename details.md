@@ -30,6 +30,10 @@ after the link is written you can press the red "show" to reveal the image or pr
 
 ![Layout Customization](img/D1.png) 
 
+by clicking the photo you can have Magnifying Glass - for a closer view
+
+![Layout Customization](img/E1.png) 
+
 in case of wrong link....
 
 ![Layout Customization](img/D2.png) 

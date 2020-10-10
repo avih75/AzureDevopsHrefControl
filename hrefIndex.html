@@ -20,6 +20,24 @@
             border-color: blue;
         }
         
+        * {
+            box-sizing: border-box;
+        }
+        
+        .img-magnifier-container {
+            position: relative;
+        }
+        
+        .img-magnifier-glass {
+            position: absolute;
+            border: 2px solid #000;
+            border-radius: 50%;
+            cursor: none;
+            /*Set the size of the magnifier glass:*/
+            width: 120px;
+            height: 120px;
+        }
+        
         input[type=text] {
             /* width: 100%; */
             box-shadow: none;
@@ -60,7 +78,7 @@
             <input id="input" type="text" class="inputText" />
             <a id="href" target="_blank" style="margin-left: 1px;margin-top: 5px;width: 75%;float: left;"></a>
         </div>
-        <img id="image" src="" alt="Broken Link" width="350" height="250" style="object-fit: cover;margin-top: 5px;"></img>
+        <img id="image" src="" alt="Broken Link" style="object-fit:contain;margin-top: 5px;max-width: 350px;max-height: 250px;width: auto;height: auto;"></img>
     </div>
 </body>
 
