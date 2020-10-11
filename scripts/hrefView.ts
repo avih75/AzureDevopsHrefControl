@@ -8,6 +8,8 @@ let url: string;   // of getting the image
 let UserName: string;
 let Password: string;
 let data: string;
+let bigImmage = $("#img");
+let magnifier: boolean;
 
 export function CreateView(HrefLink: string, FieldRefName: string, RequireCall: string, Url: string, userPass: string) {
     if (userPass) {
@@ -17,25 +19,36 @@ export function CreateView(HrefLink: string, FieldRefName: string, RequireCall: 
             Password = inf[1]
     }
     url = Url;
+    magnifier = false;
     requireCall = RequireCall;
     fieldRefName = FieldRefName;
     link = HrefLink;
     let image = $("#image");
     image.click(() => {
-        $(".img-magnifier-glass").remove();
-        magnify("image", 3);
+        if (magnifier)
+            $(".img-magnifier-glass").remove();
+        else
+            magnify("image", 3);
+        magnifier = !magnifier;
     })
     data = "";
     if (link != undefined && link != "")
         GetSourceFromApi().then((data) => {
             image.attr("src", data);
+            bigImmage.attr("src", data);
         })
     let check = $("#check");      // button switch show state
     check.text("Show");
     let href = $("#href");        // button open new tab with image link
     let textBox = $("#input");    // text box for the link
     let removeButton = $("#removeButton");
-    removeButton.text("X");
+    // removeButton.text("X");
+    removeButton.addClass("button");
+    check.addClass("button");
+    removeButton.text("New");
+    if (requireCall == "WINS") {
+        href.hide();
+    }
     removeButton.click(() => {
         textBox.val("");
         textBox.show();
@@ -46,10 +59,10 @@ export function CreateView(HrefLink: string, FieldRefName: string, RequireCall: 
         check.hide();
         view = false;
         href.hide();
-        check.hide();
         textBox.show();
         image.hide();
         image.attr("src", "");
+        bigImmage.attr("src", "");
         VSS.resize();
         WorkItemFormService.getService().then(
             (service) => {
@@ -62,7 +75,7 @@ export function CreateView(HrefLink: string, FieldRefName: string, RequireCall: 
         view = !view
         AddImageIfexists();
         VSS.resize();
-    })
+    });
     textBox.val(link);
     textBox.focusout(() => OnFieldLeavFocus());
     OnFieldLeavFocus();
@@ -75,6 +88,7 @@ function OnFieldLeavFocus() {
     let href = $("#href");
     let image = $("#image");
     image.attr("src", "");
+    bigImmage.attr("src", "");
     if (link == "") {
         href.hide();
         check.hide();
@@ -84,11 +98,13 @@ function OnFieldLeavFocus() {
     else {
         GetSourceFromApi().then((data) => {
             image.attr("src", data);
+            bigImmage.attr("src", data);
         })
         textBox.hide();
         href.attr("href", link);
         href.text(link);
-        href.show();
+        if (requireCall != "WINS")
+            href.show();
         check.show();
         AddImageIfexists();
     }

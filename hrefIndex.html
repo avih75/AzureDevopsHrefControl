@@ -54,6 +54,18 @@
             border-color: blue;
             border-width: 1px;
         }
+        
+        .button {
+            font: bold 11px Arial;
+            text-decoration: none;
+            background-color: #EEEEEE;
+            color: #333333;
+            padding: 2px 6px 2px 6px;
+            border-top: 1px solid #CCCCCC;
+            border-right: 1px solid #333333;
+            border-bottom: 1px solid #333333;
+            border-left: 1px solid #CCCCCC;
+        }
     </style>
     <script>
         VSS.init({
@@ -73,10 +85,11 @@
 <body>
     <div id="hrefLink" style="width: 100%;">
         <div id="paragraph" style="width: 100%;float: left;">
-            <label id="removeButton" style="font-size: x-small; color: gray; cursor: pointer;float: left;width: 2%;margin-top: 7px;"></label>
-            <label id="check" style="font-size: x-small; color: gray; cursor: pointer;float:left;width: 5%;margin-top: 7px;"></label>
+            <label id="removeButton" style="font-size: small; color: gray; cursor: pointer;float: left;width: auto;margin-top: 7px;"></label>
+            <label id="check" style="margin-left: 5px; font-size: small; color: gray; cursor: pointer;float:left;width: auto;margin-top: 7px;"></label>
+            <label id="open" style="margin-left: 5px; font-size: small; color: gray; cursor: pointer;float:left;width: auto;margin-top: 7px;"></label>
             <input id="input" type="text" class="inputText" />
-            <a id="href" target="_blank" style="margin-left: 1px;margin-top: 5px;width: 75%;float: left;"></a>
+            <a id="href" target="_blank" style="margin-left: 5px;font-size: small;margin-top: 7px;width: auto;float: left;"></a>
         </div>
         <img id="image" src="" alt="Broken Link" style="object-fit:contain;margin-top: 5px;max-width: 350px;max-height: 250px;width: auto;height: auto;"></img>
     </div>

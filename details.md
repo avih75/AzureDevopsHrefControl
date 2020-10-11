@@ -2,16 +2,6 @@
 
 This control was created to offer you the ability of showing a link as image and give it the option to be open in new tab
 
-# Install in Azure Devops 
-
-deffine a field for this as string, (mandatory) that will contain the link 
-
-![Layout Customization](img/A1.png) 
-
-![Layout Customization](img/A2.png) 
-
-![Layout Customization](img/A3.png) 
-
 # Simple - Use it
 
 write the link in the input box
@@ -38,6 +28,15 @@ in case of wrong link....
 
 ![Layout Customization](img/D2.png) 
 
+# Install in Azure Devops 
+
+deffine a field for this as string, (mandatory) that will contain the link 
+
+![Layout Customization](img/A1.png) 
+
+![Layout Customization](img/A2.png) 
+
+![Layout Customization](img/A3.png) 
 
 contact me :
 avih75@gmail.com
