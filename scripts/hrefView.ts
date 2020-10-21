@@ -1,16 +1,17 @@
 import { WorkItemFormService } from "TFS/WorkItemTracking/Services";
+import { RetriveToken, StoreToken } from "./storageHelper";
 
 let view: boolean = false;
 let fieldRefName: string = "";
 let requireCall: string = ""
-let link: string = "";
-let url: string;   // of getting the image
+let link: string = "";  // src to the image
+let url: string;   // of getting the image for blob
 let UserName: string;
 let Password: string;
-let data: string;
+let data: string;      // base 64 stream data image
 let bigImmage = $("#img");
 let magnifier: boolean;
-
+let token: any;
 export function CreateView(HrefLink: string, FieldRefName: string, RequireCall: string, Url: string, userPass: string) {
     if (userPass) {
         let inf = userPass.split(',');
@@ -23,32 +24,33 @@ export function CreateView(HrefLink: string, FieldRefName: string, RequireCall: 
     requireCall = RequireCall;
     fieldRefName = FieldRefName;
     link = HrefLink;
-    let image = $("#image");
-    image.click(() => {
-        if (magnifier)
-            $(".img-magnifier-glass").remove();
-        else
-            magnify("image", 3);
-        magnifier = !magnifier;
-    })
     data = "";
-    if (link != undefined && link != "")
-        GetSourceFromApi().then((data) => {
-            image.attr("src", data);
-            bigImmage.attr("src", data);
-        })
-    let check = $("#check");      // button switch show state
-    check.text("Show");
     let href = $("#href");        // button open new tab with image link
     let textBox = $("#input");    // text box for the link
-    let removeButton = $("#removeButton");
-    // removeButton.text("X");
-    removeButton.addClass("button");
-    check.addClass("button");
-    removeButton.text("New");
+
     if (requireCall == "WINS") {
+        CheckIfTokenExists("WINS").then(() => {
+            OnFieldLeavFocus();
+        })
         href.hide();
     }
+    else
+        OnFieldLeavFocus();
+
+    SetTheImage();
+    SetTheRemoveButton();
+    SetCheckButton();
+    textBox.val(link);
+    textBox.focusout(() => OnFieldLeavFocus());
+}
+function SetTheRemoveButton() {
+    let image = $("#image");
+    let check = $("#check");      // button switch show state
+    let textBox = $("#input");    // text box for the link
+    let href = $("#href");        // button open new tab with image link
+    let removeButton = $("#removeButton");
+    removeButton.text("New");
+    removeButton.addClass("button");
     removeButton.click(() => {
         textBox.val("");
         textBox.show();
@@ -71,14 +73,26 @@ export function CreateView(HrefLink: string, FieldRefName: string, RequireCall: 
             }
         );
     });
+}
+function SetCheckButton() {
+    let check = $("#check");      // button switch show state
+    check.text("Show");
+    check.addClass("button");
     check.click(() => {
         view = !view
         AddImageIfexists();
         VSS.resize();
     });
-    textBox.val(link);
-    textBox.focusout(() => OnFieldLeavFocus());
-    OnFieldLeavFocus();
+}
+function SetTheImage() {
+    let image = $("#image");
+    image.click(() => {
+        if (magnifier)
+            $(".img-magnifier-glass").remove();
+        else
+            magnify("image", 3);
+        magnifier = !magnifier;
+    })
 }
 function OnFieldLeavFocus() {
     let textBox = $("#input");
@@ -96,9 +110,9 @@ function OnFieldLeavFocus() {
         image.hide();
     }
     else {
-        GetSourceFromApi().then((data) => {
-            image.attr("src", data);
-            bigImmage.attr("src", data);
+        GetSourceFromApi().then((dataRecived) => {
+            image.attr("src", dataRecived);
+            bigImmage.attr("src", dataRecived);
         })
         textBox.hide();
         href.attr("href", link);
@@ -125,7 +139,6 @@ async function AddImageIfexists() {
         }
         image.attr("src", data);
         image.show();
-
     }
     else {
         check.text("Show");
@@ -137,9 +150,11 @@ async function AddImageIfexists() {
 async function GetSourceFromApi() {
     switch (requireCall) {
         case "WINS": {
-            let token = JSON.parse(await GetTokenFromWins())
-            let data = await GetImageDataFromWins(token["access_token"]);
-            return "data:image/jpeg;base64," + data.slice(3, data.length - 5);
+            if (!token)
+                token = await GetTokenFromWins();
+            data = await GetImageDataFromWins(token["access_token"]);
+            data = "data:image/jpeg;base64," + data.slice(3, data.length - 5);
+            return data;
         }
         default: {
             return link
@@ -157,8 +172,16 @@ function GetTokenFromWins() {
         body: content
     }
     return fetch(url + "token", requestOption).then((Response) => {
-        return Response.text();
-    })
+        return Response.text().then((result) => {
+            let token = JSON.parse(result);
+            let gap: number = token["expires_in"];
+            let maybe: Date = new Date;
+            maybe.setSeconds(maybe.getSeconds() + gap)
+            let storeInf = { token: token, recalTime: maybe }
+            StoreToken("WINS", storeInf);
+            return token;
+        });
+    });
 }
 async function GetImageDataFromWins(token: string) {
     let myHeaders = new Headers();
@@ -172,7 +195,13 @@ async function GetImageDataFromWins(token: string) {
     };
     return fetch(url + "api/Plant/GetFailureImage", requestOptions)
         .then(response => response.text())
-        .then((result) => { return result })
+        .then((result) => {
+            if (result == "\"\\\"Azure, DownloadAsync >> Exception: The URI prefix is not recognized.\\\"\"") {
+                console.log('error', result);
+                return "https://mathies.ca/images/WINSlogo2.png";
+            }
+            return result;
+        })
         .catch((error) => { console.log('error', error); return "https://mathies.ca/images/WINSlogo2.png"; });
 }
 function magnify(imgID, zoom) {
@@ -228,4 +257,14 @@ function magnify(imgID, zoom) {
         y = y - window.pageYOffset;
         return { x: x, y: y };
     }
+}
+async function CheckIfTokenExists(providerName: string) {
+    let storedToken = await RetriveToken(providerName);
+    if (storedToken && storedToken != "") {
+        if (storedToken["recalTime"] <= new Date) {
+            token = storedToken["token"];
+            return;
+        }
+    }
+    token = undefined
 }

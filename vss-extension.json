@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "Href-Link-Control",
-    "version": "1.0.225",
+    "version": "1.0.243",
     "name": "Shows linked Href of files",
     "scopes": [
         "vso.code_full",
@@ -26,6 +26,36 @@
     "content": {
         "details": {
             "path": "details.md"
+        },
+        "license": {
+            "path": "LICENSE.md"
+        },
+        "privacy": {
+            "path": "PRIVACY.md"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/avih75/AzureDevopsHrefControl"
+    },
+    "links": {
+        "support": {
+            "uri": "https://github.com/avih75/AzureDevopsHrefControl/issues"
+        },
+        "license": {
+            "uri": "https://github.com/avih75/AzureDevopsHrefControl/blob/master/LICENSE.md"
+        },
+        "privacypolicy": {
+            "uri": "https://github.com/avih75/AzureDevopsHrefControl/blob/master/PRIVACY.md"
+        },
+        "learn": {
+            "uri": "https://github.com/avih75/AzureDevopsHrefControl/blob/master/README.md"
+        },
+        "repository": {
+            "uri": "https://github.com/avih75/AzureDevopsHrefControl"
+        },
+        "issues": {
+            "uri": "https://github.com/avih75/AzureDevopsHrefControl/issues"
         }
     },
     "files": [{
