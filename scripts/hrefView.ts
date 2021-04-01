@@ -12,6 +12,11 @@ let data: string;      // base 64 stream data image
 let bigImmage = $("#img");
 let magnifier: boolean;
 let token: any;
+let ImageDeg: number = 0;
+let scaleX: number = 1;
+let scaleY: number = 1;
+let scale: number = 1;
+
 export function CreateView(HrefLink: string, FieldRefName: string, RequireCall: string, Url: string, userPass: string) {
     if (userPass) {
         let inf = userPass.split(',');
@@ -27,25 +32,39 @@ export function CreateView(HrefLink: string, FieldRefName: string, RequireCall: 
     data = "";
     let href = $("#href");        // button open new tab with image link
     let textBox = $("#input");    // text box for the link
-
+    textBox.val(link);
     if (requireCall == "WINS") {
         CheckIfTokenExists("WINS").then(() => {
             OnFieldLeavFocus();
         })
         href.hide();
+        $("#removeButton").hide();
     }
-    else
+    else {
         OnFieldLeavFocus();
-
+    }
+    SetNewImageScale();
+    // $("#image").css("transform", "rotate(" + ImageDeg + "deg) scaleX(" + scaleX + ") scaleY(" + scaleY + ") scale(" + scale + ")");
+    // bigImmage.css("transform", "rotate(" + ImageDeg + "deg) scaleX(" + scaleX + ") scaleY(" + scaleY + ") scale(" + scale + ")");
     SetTheImage();
     SetTheRemoveButton();
     SetCheckButton();
-    textBox.val(link);
+    SetImageButtons();
     textBox.focusout(() => OnFieldLeavFocus());
+}
+function SetTheImage() {
+    $("#image").click(() => {
+        if (magnifier)
+            $(".img-magnifier-glass").remove();
+        else
+            magnify();
+        magnifier = !magnifier;
+    });
 }
 function SetTheRemoveButton() {
     let image = $("#image");
     let check = $("#check");      // button switch show state
+    let imageBuutons = $("#ImageButtons");
     let textBox = $("#input");    // text box for the link
     let href = $("#href");        // button open new tab with image link
     let removeButton = $("#removeButton");
@@ -59,6 +78,7 @@ function SetTheRemoveButton() {
         href.text("");
         href.hide();
         check.hide();
+        imageBuutons.hide();
         view = false;
         href.hide();
         textBox.show();
@@ -84,21 +104,38 @@ function SetCheckButton() {
         VSS.resize();
     });
 }
-function SetTheImage() {
-    let image = $("#image");
-    image.click(() => {
-        if (magnifier)
-            $(".img-magnifier-glass").remove();
+function SetImageButtons() {
+    $("#FlipH").addClass("button");
+    $("#FlipH").click(() => {
+        scaleY = scaleY * -1;
+        SetNewImageScale();
+    });
+    $("#FlipV").addClass("button");
+    $("#FlipV").click(() => {
+        scaleX = scaleX * -1;
+        SetNewImageScale();
+    });
+    $("#Spin90Deg").addClass("button");
+    $("#Spin90Deg").click(() => {
+        ImageDeg += 90;
+        if (scale == 1) {
+            scale = 0.7
+        }
         else
-            magnify("image", 3);
-        magnifier = !magnifier;
-    })
+            scale = 1
+        SetNewImageScale();
+    });
+}
+function SetNewImageScale() {
+    $("#image").css("transform", "rotate(" + ImageDeg + "deg) scaleX(" + scaleX + ") scaleY(" + scaleY + ") scale(" + scale + ")");
+    bigImmage.css("transform", "rotate(" + ImageDeg + "deg) scaleX(" + scaleX + ") scaleY(" + scaleY + ") scale(" + scale + ")");
 }
 function OnFieldLeavFocus() {
     let textBox = $("#input");
     link = textBox.val();
     data = "";
     let check = $("#check");
+    let imageBuutons = $("#ImageButtons");
     let href = $("#href");
     let image = $("#image");
     image.attr("src", "");
@@ -106,6 +143,7 @@ function OnFieldLeavFocus() {
     if (link == "") {
         href.hide();
         check.hide();
+        imageBuutons.hide();
         textBox.show();
         image.hide();
     }
@@ -119,6 +157,7 @@ function OnFieldLeavFocus() {
         href.text(link);
         if (requireCall != "WINS")
             href.show();
+        imageBuutons.show();
         check.show();
         AddImageIfexists();
     }
@@ -152,8 +191,17 @@ async function GetSourceFromApi() {
         case "WINS": {
             if (!token)
                 token = await GetTokenFromWins();
-            data = await GetImageDataFromWins(token["access_token"]);
-            data = "data:image/jpeg;base64," + data.slice(3, data.length - 5);
+            if (!token) {
+                data = "https://gp1.wac.edgecastcdn.net/802892/http_public_production/artists/images/2116140/original/crop:x0y0w886h1084/hash:1493073657/PARA_GORRA_NOTOKEN.jpg?1493073657"
+            }
+            else {
+                data = await GetImageDataFromWins(token["access_token"]);
+                if (data == "") {
+                    data = "https://p1.hiclipart.com/preview/658/470/455/krzp-dock-icons-v-1-2-empty-grey-empty-text-png-clipart.jpg"
+                }
+                else
+                    data = "data:image/jpeg;base64," + data.slice(3, data.length - 5);
+            }
             return data;
         }
         default: {
@@ -204,9 +252,10 @@ async function GetImageDataFromWins(token: string) {
         })
         .catch((error) => { console.log('error', error); return "https://mathies.ca/images/WINSlogo2.png"; });
 }
-function magnify(imgID, zoom) {
+function magnify() {
+    let zoom: number = 3
     let img, glass, w, h, bw;
-    img = document.getElementById(imgID);
+    img = document.getElementById("image");
     /*create magnifier glass:*/
     glass = document.createElement("DIV");
     glass.setAttribute("class", "img-magnifier-glass");
@@ -261,7 +310,8 @@ function magnify(imgID, zoom) {
 async function CheckIfTokenExists(providerName: string) {
     let storedToken = await RetriveToken(providerName);
     if (storedToken && storedToken != "") {
-        if (storedToken["recalTime"] <= new Date) {
+        let reDate: Date = new Date(storedToken["recalTime"]);
+        if (reDate > new Date) {
             token = storedToken["token"];
             return;
         }
